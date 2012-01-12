@@ -124,6 +124,7 @@ public class MainActivity extends Activity implements OnClickListener{
 			ll_display.addView(ll_main);
 			ll_display.addView(ll_footer);
 			sv.addView(ll_display);
+			sv.setBackgroundDrawable(getResources().getDrawable(R.drawable.background1));
 			this.setContentView(sv);
 	 }
 	 
