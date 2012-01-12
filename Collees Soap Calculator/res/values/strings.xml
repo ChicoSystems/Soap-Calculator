@@ -2,5 +2,6 @@
 <resources>
     <string name="app_name">Soap Calc</string>
     <string name="app_name_subtitle">I.T. and Network Contracting</string>
+    <string name="oil_prompt">Choose Oil</string>
 
 </resources>
