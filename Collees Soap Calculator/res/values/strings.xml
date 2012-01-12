@@ -3,5 +3,17 @@
     <string name="app_name">Soap Calc</string>
     <string name="app_name_subtitle">I.T. and Network Contracting</string>
     <string name="oil_prompt">Choose Oil</string>
+    <string name="button_add">Add</string>
+    <string-array name="oils_array">
+        <item>Almond Oil</item>
+        <item>Apricot Oil</item>
+        <item>Avocado Oil</item>
+        <item>Bees Wax</item>
+        <item>Canola Oil</item>
+        <item>Castor Oil</item>
+        <item>Cocoa Butter</item>
+        <item>Coconut Oil</item>
+    </string-array>
+        
 
 </resources>
