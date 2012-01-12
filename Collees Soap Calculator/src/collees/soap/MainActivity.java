@@ -1,27 +1,19 @@
 package collees.soap;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import collees.soap.R;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener{
+	
+	private static String[] oilNames = { "Almond Oil", "Apricot Oil", "Avocado Oil", "Bees Wax",
+		"Canola Oil", "Castor Oil", "Cocoa Butter", "Coconut Oil" };
+	private static Float[] oilNAOH = { .1379f, .1354f, .1337f, .0670f,
+		.1369f, .1258f, .1365f, .1839f };
 	
 	private SharedPreferences preferences;
 	private String TAG = "SOAP";
@@ -44,6 +41,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	LinearLayout ll_row1;
 	LinearLayout ll_row2;
 	ArrayList<LinearLayout>rowList;
+	HashMap oilSapMap;
 	TextView text_selectOil;
 	TextView text_units;
 	
@@ -56,6 +54,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	        preferences = getPreferences(MODE_PRIVATE);
 	       // setContentView(R.layout.main);
 	        
+	        createOilSapMap();
 			createWindow();
 	        
 			/*
@@ -69,6 +68,13 @@ public class MainActivity extends Activity implements OnClickListener{
 
 	        
 	    }
+	 
+	 private void createOilSapMap(){
+		 oilSapMap = new HashMap<String, Float>();
+		 for(int i = 0; i < oilNames.length; i++){
+			 oilSapMap.put(oilNames[i], oilNAOH[i]);
+		 }
+	 }
 	 
 	 private void addNewRow(){
 		 LinearLayout newRow = new LinearLayout(this);
@@ -168,8 +174,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		 calculateButton.setText("Calculate");
 		 calculateButton.setOnClickListener(new View.OnClickListener() {
 	             public void onClick(View v) {
-	            	 
-	                 
+	            	 calculateTotals(rowList);
 	             }
 	         });
 		
@@ -180,10 +185,89 @@ public class MainActivity extends Activity implements OnClickListener{
 	        
 	 }
 	 
+	 private void calculateTotals(ArrayList<LinearLayout>rowList){
+		 float totalOil = calculateTotalOil(rowList);
+		 float totalNAOH = calculateTotalNAOH(rowList, totalOil);
+		 float totalLye = calculateTotalLye(totalOil, totalNAOH);
+		 float totalLyeWater = calculateTotalLyeWater(totalLye);
+		 float totalWater = calculateTotalWater(totalLyeWater, totalLye);
+		 float totalSoap = calculateTotalSoap(totalOil, totalLyeWater);
+		 
+		 Log.d(TAG, "totalOIl = " + totalOil);
+		 Log.d(TAG, "totalNAOH = " + totalNAOH);
+		 Log.d(TAG, "totalLYE = " + totalLye);
+		 Log.d(TAG, "totalLyeWater = " + totalLyeWater);
+		 Log.d(TAG, "totalWater= " + totalWater);
+		 Log.d(TAG, "totalSoap= " + totalSoap);
+	 }
+	 
+	 private float calculateTotalSoap(float totalOil, float totalLyeWater){
+		 return (totalOil + totalLyeWater);
+	 }
+	 
+	 private float calculateTotalWater(float totalLyeWater, float totalLye){
+		 return (totalLyeWater - totalLye);
+	 }
+	 
+	 private float calculateTotalLyeWater(float totalLye)
+	 {
+		 return (totalLye / 0.3f);
+	 }
+	 
+	 private float calculateTotalLye(float totalOil, float totalNAOH){
+		return (totalOil * totalNAOH);
+	 }
+	 
+	 private float calculateTotalNAOH(ArrayList<LinearLayout>rowList, float totalOil){
+		// Log.d(TAG, "TotalOil = " + totalOil);
+		 float totalNAOH = 0;
+		 for(int i = 1; i < rowList.size(); i++){
+			 ((Spinner)rowList.get(i).getChildAt(0)).getItemAtPosition(0).toString();
+			// Log.d(TAG, "NAOH = " + ((Spinner)rowList.get(i).getChildAt(0)).getItemAtPosition(((Spinner)rowList.get(i).getChildAt(0)).getSelectedItemPosition()));
+			 float oilAmount = Float.parseFloat(((EditText) rowList.get(i).getChildAt(1)).getText().toString());
+			 String oilName = (String) ((Spinner)rowList.get(i).getChildAt(0)).getItemAtPosition(((Spinner)rowList.get(i).getChildAt(0)).getSelectedItemPosition());
+			 float naohFactor = (Float) oilSapMap.get(oilName);
+			
+			 float percentageSolution = oilAmount / totalOil;
+			 float thisNAOH = percentageSolution * naohFactor;
+			 totalNAOH += thisNAOH;
+			 /*
+			 Log.d(TAG, "OilName = " + oilName);
+			 Log.d(TAG, "naohFactor = " + naohFactor);
+			 Log.d(TAG, "OilAmount = " + oilAmount);
+			 Log.d(TAG, "Percentage = " + percentageSolution);
+			 Log.d(TAG, "ThisNAOH = " + thisNAOH);
+			 */
+			 
+			 
+			
+		 }
+		 
+		 //Log.d(TAG, "TotalNAOH = " + totalNAOH);
+		 return totalNAOH;
+	 }
+	 
+	 private float calculateTotalOil(ArrayList<LinearLayout>rowList){
+		 float totalOil = 0;
+		 
+		 for(int i =1; i < rowList.size()-0;i++){
+			 //Log.d(TAG, "gettext = " + ((EditText) rowList.get(i).getChildAt(1)).getText().toString());
+			 //totalOil += Integer.getInteger(((EditText) rowList.get(i).getChildAt(1)).getText().toString());
+			 Float amount = new Float(0f);
+			 amount = Float.parseFloat(((EditText) rowList.get(i).getChildAt(1)).getText().toString());
+			 totalOil += amount;
+			 
+		 }
+		 
+		 
+		 return totalOil;
+	 }
+	 
 	 private void removeOilSelector(int rowNum){
 		 ll_main.removeView(rowList.remove(rowNum));
 		 //rowList.remove(rowNum);
 		 //rowList.
+		 
 	 }
 	 
 	 private void addOilSelector(int rowNum){
