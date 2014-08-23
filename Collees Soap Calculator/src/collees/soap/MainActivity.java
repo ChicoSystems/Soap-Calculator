@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import collees.soap.R;
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +15,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,12 +23,48 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener{
 	
-	private static String[] oilNames = { "Almond Oil", "Apricot Oil", "Avocado Oil", "Bees Wax",
-		"Canola Oil", "Castor Oil", "Cocoa Butter", "Coconut Oil" };
-	private static Float[] oilNAOH = { .1379f, .1354f, .1337f, .0670f,
-		.1369f, .1258f, .1365f, .1839f };
+	private static String[] oilNames = { "Almond Oil", "Aloe Vera Butter", "Aloe Vera Oil", "Apricot Oil",
+		"Avocado Butter", "Avocado Oil", "Babassu Nut Oil", "Beeswax",
+		"Borage Oil", "Candelilla Wax", "Canola Oil",
+		"Canola Oil, Oleic Acid", "Castor Bean Oil", "Cherry Oil",
+		"Chicken Fat", "Cocoa Butter", "Coconut Oil, Refined",
+		"Coconut Oil, Hydrogenated", "Coconut Oil, Saturated", "Copha Vegetable Oil",
+		"Corn Oil", "Cottonseed Oil", "Crisco Vegetable Oil",
+		"Emu Oil", "Evening Primrose Oil", "Flaxseed Oil",
+		"Goat Fat", "Goose Fat", "Grapeseed Oil",
+		"Hazelnut Oil", "Hempseed Oil", "Jojoba Seed Oil",
+		"Jojoba Seed Wax", "Karite Butter", "Kremelta Shortening",
+		"Kukui Nut Oil", "Lanolin", "Lard",
+		"Linseed Oil", "Macadamia Nut Oil", "Milk Fat",
+		"Mink Oil", "Monoi de Tahiti Oil", "Neem Tree Oil",
+		"Olive Oil", "Ostrich Oil", "Palm Kernal Oil",
+		"Palm Oil", "Peach Kernel Oil", "Peanut Oil",
+		"Pumpkin Seed Oil", "Rapeseed Oil", "Rice Bran Oil",
+		"Safflower Oil, Linoleic Acid", "Safflower Oil, Oleic Acid", "Sesame Seed Oil",
+		"Shea Butter", "Soybean Oil", "Soybean Oil, Hydrogenated",
+		"Stearic Acid - Animal", "Stearic Acid - Vegetable", "Sunflower Seed Oil",
+		"Sunflower Seed Oil, Oleic Acid", "Tallow, Beef", "Tallow, Deer",
+		"Tallow, Sheep", "Tamanu Seed Oil", "Tiare Flower Oil",
+		"Walnut Oil", "Wheat Germ Oil"};
+	private static Float[] oilNAOH = { .1367f, .1788f, .1421f, .1378f,
+		.1339f, .1337f, .1749f, .0689f, 
+		.1339f, .0322f, .1328f, .1330f, 
+		.1286f, .1389f, .1356f, .1378f, 
+		.1910f, .1910f, .2321f, .1910f, 
+		.1368f, .1387f, .1369f, .1377f, 
+		.1362f, .1358f, .1382f, .1349f, 
+		.1321f, .1369f, .1359f, .0695f, 
+		.0695f, .1296f, .1910f, .1351f, 
+		.0748f, .1399f, .1358f, .1391f, 
+		.1599f, .1403f, .1796f, .1372f, 
+		.1353f, .1385f, .1777f, .1420f, 
+		.1361f, .1367f, .1389f, .1328f, 
+		.1284f, .1374f, .1369f, .1336f, 
+		.1296f, .1359f, .1361f, .1413f, 
+		.1411f, .1358f, .1351f, .1419f, 
+		.1382f, .1284f, .1437f, .1796f, 
+	    .1349f, .1319f};
 	
-	private SharedPreferences preferences;
 	private String TAG = "SOAP";
 	private int numRows;
 	ScrollView sv;
@@ -51,8 +85,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-	        preferences = getPreferences(MODE_PRIVATE);
-	       // setContentView(R.layout.main);
+	        getPreferences(MODE_PRIVATE);
 	        
 	        createOilSapMap();
 			createWindow();
@@ -193,12 +226,26 @@ public class MainActivity extends Activity implements OnClickListener{
 		 float totalWater = calculateTotalWater(totalLyeWater, totalLye);
 		 float totalSoap = calculateTotalSoap(totalOil, totalLyeWater);
 		 
-		 Log.d(TAG, "totalOIl = " + totalOil);
+		 Log.d(TAG, "totalOil = " + totalOil);
 		 Log.d(TAG, "totalNAOH = " + totalNAOH);
 		 Log.d(TAG, "totalLYE = " + totalLye);
 		 Log.d(TAG, "totalLyeWater = " + totalLyeWater);
 		 Log.d(TAG, "totalWater= " + totalWater);
 		 Log.d(TAG, "totalSoap= " + totalSoap);
+		 
+		 Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+		 Bundle b = new Bundle();
+
+		 b.putFloat("totalOil", totalOil);
+		 b.putFloat("totalLye", totalLye);
+		 b.putFloat("totalWater", totalWater);
+		 b.putFloat("totalSoap", totalSoap);
+
+		 intent.putExtras(b);
+
+		 startActivity(intent);
+
+		 finish();
 	 }
 	 
 	 private float calculateTotalSoap(float totalOil, float totalLyeWater){

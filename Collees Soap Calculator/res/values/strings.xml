@@ -1,18 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Soap Calc</string>
-    <string name="app_name_subtitle">I.T. and Network Contracting</string>
+    <string name="app_name">Soap Calculator</string>
+    <string name="app_name_subtitle">by Collee</string>
     <string name="oil_prompt">Choose Oil</string>
     <string name="button_add">Add</string>
     <string-array name="oils_array">
         <item>Almond Oil</item>
+        <item>Aloe Vera Butter</item>
+        <item>Aloe Vera Oil</item>
         <item>Apricot Oil</item>
+        <item>Avocado Butter</item>
         <item>Avocado Oil</item>
-        <item>Bees Wax</item>
+        <item>Babassu Nut Oil</item>
+        <item>Beeswax</item>
+        <item>Borage Oil</item>
+        <item>Candelilla Wax</item>
         <item>Canola Oil</item>
-        <item>Castor Oil</item>
+        <item>Canola Oil, Oleic Acid</item>
+        <item>Castor Bean Oil</item>
+        <item>Cherry Oil</item>
+        <item>Chicken Fat</item>
         <item>Cocoa Butter</item>
-        <item>Coconut Oil</item>
+        <item>Coconut Oil, Refined</item>
+        <item>Coconut Oil, Hydrogenated</item>
+        <item>Coconut Oil, Saturated</item>
+        <item>Copha Vegetable Oil</item>
+        <item>Corn Oil</item>
+        <item>Cottonseed Oil</item>
+        <item>Crisco Vegetable Oil</item>
+        <item>Emu Oil</item>
+        <item>Evening Primrose Oil</item>
+        <item>Flaxseed Oil</item>
+        <item>Goat Fat</item>
+        <item>Goose Fat</item>
+        <item>Grapeseed Oil</item>
+        <item>Hempseed Oil</item>
+        <item>Jojoba Seed Oil</item>
+        <item>Jojoba Seed Wax</item>
+        <item>Karite Butter</item>
+        <item>Kremelta Shortening</item>
+        <item>Kukui Nut Oil</item>
+        <item>Lanolin</item>
+        <item>Lard</item>
+        <item>Linseed Oil</item>
+        <item>Macadamia Nut Oil</item>
+        <item>Milk Fat</item>
+        <item>Mink Oil</item>
+        <item>Monoi de Tahiti Oil</item>
+        <item>Neem Tree Oil</item>
+        <item>Olive Oil</item>
+        <item>Ostrich Oil</item>
+        <item>Palm Kernal Oil</item>
+        <item>Palm Oil</item>
+        <item>Peach Kernel Oil</item>
+        <item>Peanut Oil</item>
+        <item>Pumpkin Seed Oil</item>
+        <item>Rapeseed Oil</item>
+        <item>Rice Bran Oil</item>
+        <item>Safflower Oil, Linoleic Acid</item>
+        <item>Safflower Oil, Oleic Acid</item>
+        <item>Sesame Seed Oil</item>
+        <item>Shea Butter</item>
+        <item>Soybean Oil</item>
+        <item>Soybean Oil, Hydrogenated</item>
+        <item>Stearic Acid - Animal</item>
+        <item>Stearic Acid - Vegetable</item>
+        <item>Sunflower Seed Oil</item>
+        <item>Sunflower Seed Oil, Oleic Acid</item>
+        <item>Tallow, Beef</item>
+        <item>Tallow, Deer</item>
+        <item>Tallow, Sheep</item>
+        <item>Tamanu Seed Oil</item>
+        <item>Tiare Flower Oil</item>
+        <item>Walnut Oil</item>
+        <item>Wheat Germ Oil</item>
+        
     </string-array>
   
         
